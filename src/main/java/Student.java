@@ -1,14 +1,14 @@
 public class Student {
 
-    String fullName;
     String universityId;
+    String fullName;
     int currentCourseNumber;
     float avgExamScore;
 
     //builder
-    private Student(StudentBuilder studentBuilder) {
-        fullName = studentBuilder.fullName;
+    Student(StudentBuilder studentBuilder) {
         universityId = studentBuilder.universityId;
+        fullName = studentBuilder.fullName;
         currentCourseNumber = studentBuilder.currentCourseNumber;
         avgExamScore = studentBuilder.avgExamScore;
     }
@@ -32,22 +32,20 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Студент: " + fullName +
-                ", идентификатор ВУЗа= " + universityId +
-                ", курс= " + currentCourseNumber +
-                ", средний балл= " + avgExamScore;
+        String specifiers = "%-20s %-15s %-4d %-5.2f %n";
+         return String.format(specifiers, fullName, universityId, currentCourseNumber, avgExamScore);
     }
 
     //Student Builder
     public static class StudentBuilder {
-        private final String fullName;
         private final String universityId;
+        private final String fullName;
         private int currentCourseNumber;
         private float avgExamScore;
 
-        public StudentBuilder(String fullName, String universityId) {
-            this.fullName = fullName;
+        public StudentBuilder(String universityId, String fullName) {
             this.universityId = universityId;
+            this.fullName = fullName;
         }
 
         //SETTERS
