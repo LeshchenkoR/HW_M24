@@ -1,25 +1,28 @@
+package Model;
+
 public class University {
 
     String id;
     String fullName;
     String shortName;
     int yearOfFoundation;
-
     StudyProfile mainProfile;
 
     //ENUM
     public enum StudyProfile {
         MEDICINE("Медицина"), ECONOMY("Экономика"),
-        MANAGEMENT("Управление"), BUILDING("Строительство");
+        MANAGEMENT("Управление"), MATHEMATICS("Математика"),
+        PHYSICS("Физика"), LINGUISTICS("Лингвистика"),
+        ;
 
-        private String profileName;
+        private final String profileName;
 
         StudyProfile(String profileName) {
             this.profileName = profileName;
         }
 
         public String getProfileName() {
-            return profileName;
+            return this.profileName;
         }
     }
 
@@ -49,25 +52,28 @@ public class University {
         return yearOfFoundation;
     }
 
-//    public StudyProfile getMainProfile() {
-//        return mainProfile;
+    public StudyProfile getMainProfile() {
+        return mainProfile;
+    }
+
+//    public University setMainProfile(StudyProfile mainProfile) {
+//        this.mainProfile = mainProfile;
+//        return this;
 //    }
 
     @Override
     public String toString() {
-        return "Университет: " + id +", название= " + fullName +
-                ", сокращенно= " + shortName +
-                ", год образования= " + yearOfFoundation +
-                ", направление обучения= " + mainProfile.profileName;
+        String specifiers = "%-10s %-55s %-10s %-10d %-10s";
+        return String.format(specifiers, id, fullName, shortName, yearOfFoundation, mainProfile);
     }
 
-    //Build University
+    //Build Model.University
     public static class UniversityBuilder {
-        private String id;
-        private String fullName;
-        private String shortName;
-        private int yearOfFoundation;
-        private StudyProfile mainProfile;
+        private final String id;
+        private final String fullName;
+        private final String shortName;
+        private final int yearOfFoundation;
+        private final StudyProfile mainProfile;
 
         public UniversityBuilder(String id, String fullName, String shortName,
                                  int yearOfFoundation, StudyProfile mainProfile) {

@@ -1,15 +1,31 @@
+import Comparator.UniversityComparator;
+import Comparator.StudentComparator;
+import DataReader.ReadData;
+import Enum.StudentCompareEnum;
+import Enum.UniversityCompareEnum;
+import Model.Student;
+import Model.University;
+import Utils.SelectComparator;
+
+import java.io.File;
+import java.net.URI;
+import java.util.List;
+
 public class Main {
-    public static void main(String[] args) {
-        Student student1 = new Student
-                .StudentBuilder("Петров Николай", "111")
-                .setCurrentCourseNumber(1)
-                .setAvgExamScore(4.5F)
-                .build();
-        University university1 = new University
-                .UniversityBuilder("111", "Высшая школа экономики",
-                "ВШЭ", 2022, University.StudyProfile.ECONOMY)
-                .build();
-        System.out.println(student1);
-        System.out.println(university1);
+    public static void main(String[] args) throws Exception {
+        ReadData rd = ReadData.getInstance();
+        URI linkToFile = rd.readFileFromResources("universityInfo.xlsx");
+        File file = new File(linkToFile);
+        List<Student> students = rd.readStudentsDataFromFile(file);
+        List<University> universities = rd.readUniversityDataFromFile(file);
+
+        StudentComparator studentComparator = SelectComparator.
+                getInstance().getStudentComparator(StudentCompareEnum.FULL_NAME);
+
+        UniversityComparator universityComparator = SelectComparator.
+                getInstance().getUniversityComparator(UniversityCompareEnum.UNIVERSITY_PROFILE);
+
+        students.stream().sorted(studentComparator).forEach(System.out::println);
+        universities.stream().sorted(universityComparator).forEach(System.out::println);
     }
 }
