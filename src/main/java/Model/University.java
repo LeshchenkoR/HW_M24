@@ -1,3 +1,5 @@
+package Model;
+
 public class University {
 
     String id;
@@ -20,7 +22,7 @@ public class University {
         }
 
         public String getProfileName() {
-            return profileName;
+            return this.profileName;
         }
     }
 
@@ -50,13 +52,22 @@ public class University {
         return yearOfFoundation;
     }
 
+    public StudyProfile getMainProfile() {
+        return mainProfile;
+    }
+
+//    public University setMainProfile(StudyProfile mainProfile) {
+//        this.mainProfile = mainProfile;
+//        return this;
+//    }
+
     @Override
     public String toString() {
-        String specifiers = "%-10s %-55s %-10s %-10d %-10s %n";
+        String specifiers = "%-10s %-55s %-10s %-10d %-10s";
         return String.format(specifiers, id, fullName, shortName, yearOfFoundation, mainProfile);
     }
 
-    //Build University
+    //Build Model.University
     public static class UniversityBuilder {
         private final String id;
         private final String fullName;

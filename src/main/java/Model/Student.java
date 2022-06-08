@@ -1,9 +1,14 @@
+package Model;
+
 public class Student {
 
     String universityId;
     String fullName;
     int currentCourseNumber;
     float avgExamScore;
+
+//    public Model.Student() {
+//    }
 
     //builder
     Student(StudentBuilder studentBuilder) {
@@ -32,11 +37,11 @@ public class Student {
 
     @Override
     public String toString() {
-        String specifiers = "%-20s %-15s %-4d %-5.2f %n";
+        String specifiers = "%-20s %-15s %-4d %-5.2f";
          return String.format(specifiers, fullName, universityId, currentCourseNumber, avgExamScore);
     }
 
-    //Student Builder
+    //Model.Student Builder
     public static class StudentBuilder {
         private final String universityId;
         private final String fullName;

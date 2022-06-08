@@ -1,3 +1,7 @@
+package DataReader;
+
+import Model.Student;
+import Model.University;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -23,12 +27,12 @@ public class ReadData {
     }
 
     //Доступ к файлу в папке resources  ------------------------------------------
-    public URI readTextResource(String filename) throws Exception {
+    public URI readFileFromResources(String filename) throws Exception {
         return getClass().getResource(String.format("/%s", filename)).toURI();
     } // end of readTextResource -------------------------------------------------
 
     // метод для чтения студентов -----------------------------------------------------------
-    public static List<Student> readStudentsDataFromFile(File file) throws IOException {
+    public List<Student> readStudentsDataFromFile(File file) throws IOException {
         List<Student> students = new ArrayList<>();
 
         XSSFWorkbook myExcelBook = new XSSFWorkbook(new FileInputStream(file));
@@ -49,7 +53,7 @@ public class ReadData {
     } // end of readStudentsDataFromFile ---------------------------------------------------------
 
     // метод для чтения университетов -----------------------------------------------------------
-    public static List<University> readUniversityDataFromFile(File file) throws IOException {
+    public List<University> readUniversityDataFromFile(File file) throws IOException {
         List<University> universities = new ArrayList<>();
 
         XSSFWorkbook myExcelBook = new XSSFWorkbook(new FileInputStream(file));
@@ -70,13 +74,4 @@ public class ReadData {
         }
         return universities;
     } // end of readUniversityDataFromFile -------------------------------------------------------
-
-    //   !!!!!!!!!!!!!  MAIN   !!!!!!!!!!!!!!!!!!!
-    public static void main(String[] args) throws Exception {
-        ReadData rd = ReadData.getInstance();
-        URI content = rd.readTextResource("universityInfo.xlsx");
-        File file = new File(content);
-        System.out.println(readUniversityDataFromFile(file));
-        System.out.println(readStudentsDataFromFile(file));
-    } // end of MAIN  !!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
