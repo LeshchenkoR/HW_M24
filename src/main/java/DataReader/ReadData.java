@@ -31,10 +31,6 @@ public class ReadData {
         return getClass().getResource(String.format("/%s", filename)).toURI();
     } // end of readTextResource -------------------------------------------------
 
-    // метод для вывода заголовка таблицы на листе. Перспективная разработка------
-    public static void PrintHeader(File file) throws IOException {
-    }// end of PrintHeader  ------------------------------------------------------
-
     // метод для чтения студентов -----------------------------------------------------------
     public List<Student> readStudentsDataFromFile(File file) throws IOException {
         List<Student> students = new ArrayList<>();
