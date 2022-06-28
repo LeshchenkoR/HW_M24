@@ -1,6 +1,6 @@
-package Comparator;
+package comparators;
 
-import Model.University;
+import model.University;
 
 import java.util.Comparator;
 

@@ -1,8 +1,8 @@
-package Utils;
+package utils;
 
-import Comparator.*;
-import Enum.StudentCompareEnum;
-import Enum.UniversityCompareEnum;
+import comparators.*;
+import enums.StudentCompareEnum;
+import enums.UniversityCompareEnum;
 
 public class SelectComparator {
 

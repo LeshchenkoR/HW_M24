@@ -1,14 +1,19 @@
-package Model;
+package model;
 
-public class Student {
+import com.google.gson.annotations.SerializedName;
 
-    String universityId;
-    String fullName;
-    int currentCourseNumber;
-    float avgExamScore;
+import java.io.Serializable;
 
-//    public Model.Student() {
-//    }
+public class Student implements Serializable {
+
+    @SerializedName("ID")
+    private final String universityId;
+    @SerializedName("Имя")
+    private final String fullName;
+    @SerializedName("Курс")
+    private final int currentCourseNumber;
+    @SerializedName("Ср.балл")
+    private final float avgExamScore;
 
     //builder
     Student(StudentBuilder studentBuilder) {
@@ -38,7 +43,7 @@ public class Student {
     @Override
     public String toString() {
         String specifiers = "%-20s %-15s %-4d %-5.2f";
-         return String.format(specifiers, fullName, universityId, currentCourseNumber, avgExamScore);
+        return String.format(specifiers, fullName, universityId, currentCourseNumber, avgExamScore);
     }
 
     //Model.Student Builder

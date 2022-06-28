@@ -1,6 +1,6 @@
-package Comparator;
+package comparators;
 
-import Model.University;
+import model.University;
 import org.apache.commons.lang3.StringUtils;
 
 public class UniversityIdComparator implements UniversityComparator{
