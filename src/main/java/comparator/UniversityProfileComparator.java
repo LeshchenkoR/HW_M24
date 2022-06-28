@@ -1,6 +1,6 @@
-package Comparator;
+package comparator;
 
-import Model.University;
+import model.University;
 import org.apache.commons.lang3.StringUtils;
 
 public class UniversityProfileComparator implements UniversityComparator {

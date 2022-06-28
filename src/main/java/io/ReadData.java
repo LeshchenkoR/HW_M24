@@ -1,7 +1,8 @@
-package DataReader;
+package io;
 
-import Model.Student;
-import Model.University;
+import enums.StudyProfile;
+import model.Student;
+import model.University;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -68,7 +69,7 @@ public class ReadData {
                     currentRow.getCell(1).getStringCellValue(),
                     currentRow.getCell(2).getStringCellValue(),
                     (int) currentRow.getCell(3).getNumericCellValue(),
-                    University.StudyProfile.valueOf(University.StudyProfile.class,
+                    StudyProfile.valueOf(StudyProfile.class,
                             currentRow.getCell(4).getStringCellValue()));
             universities.add(university.build());
         }

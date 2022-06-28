@@ -1,7 +1,7 @@
-package Utils;
+package utils;
 
-import Model.Student;
-import Model.University;
+import model.Student;
+import model.University;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

@@ -1,6 +1,6 @@
-package Comparator;
+package comparator;
 
-import Model.Student;
+import model.Student;
 
 public class StudentAvgExamScoreComparator implements StudentComparator {
     @Override

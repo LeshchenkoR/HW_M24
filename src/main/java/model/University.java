@@ -1,6 +1,7 @@
-package Model;
+package model;
 
 import com.google.gson.annotations.SerializedName;
+import enums.StudyProfile;
 
 public class University {
     @SerializedName("ID")
@@ -14,23 +15,7 @@ public class University {
     @SerializedName("Профиль")
     StudyProfile mainProfile;
 
-    //ENUM
-    public enum StudyProfile {
-        MEDICINE("Медицина"), ECONOMY("Экономика"),
-        MANAGEMENT("Управление"), MATHEMATICS("Математика"),
-        PHYSICS("Физика"), LINGUISTICS("Лингвистика"),
-        ;
 
-        private final String profileName;
-
-        StudyProfile(String profileName) {
-            this.profileName = profileName;
-        }
-
-        public String getProfileName() {
-            return this.profileName;
-        }
-    }
 
     //BUILDER
     private University(UniversityBuilder universityBuilder) {
@@ -62,10 +47,10 @@ public class University {
         return mainProfile;
     }
 
-//    public University setMainProfile(StudyProfile mainProfile) {
-//        this.mainProfile = mainProfile;
-//        return this;
-//    }
+    public University setMainProfile(StudyProfile mainProfile) {
+        this.mainProfile = mainProfile;
+        return this;
+    }
 
     @Override
     public String toString() {

@@ -1,8 +1,16 @@
-import DataReader.ReadData;
-import Model.Student;
-import Model.University;
-import Utils.Checking;
-import Utils.JsonUtil;
+import comparator.StudentComparator;
+import comparator.UniversityComparator;
+import enums.StudentCompareEnum;
+import enums.UniversityCompareEnum;
+import io.ReadData;
+import io.XlsWriter;
+import model.Statistics;
+import model.Student;
+import model.University;
+import utils.Checking;
+import utils.CollectStatistics;
+import utils.JsonUtil;
+import utils.SelectComparator;
 
 import java.io.File;
 import java.net.URI;
@@ -16,18 +24,22 @@ public class Main {
         List<Student> students = rd.readStudentsDataFromFile(file);
         List<University> universities = rd.readUniversityDataFromFile(file);
 
+        StudentComparator studentComparator = SelectComparator.
+                getInstance().getStudentComparator(StudentCompareEnum.COURSE);
+        students.sort(studentComparator);
+
 //        System.out.println("serialized student object--------------------");
 //        System.out.println(JsonUtil.serializeStudentObject(students.get(1)));
 
         System.out.println("serialized student list------------------------");
-        String ssl = JsonUtil.serializeStudentList(students);
-        System.out.println(ssl);
+        String studentsJson = JsonUtil.serializeStudentList(students);
+        System.out.println(studentsJson);
 
         System.out.println("deserialized student list----------------------");
-        List<Student> newStudentList = JsonUtil.deserializeStudentList(ssl);
-        newStudentList.forEach(System.out::println);
+        List<Student> studentsFromJson = JsonUtil.deserializeStudentList(studentsJson);
+        studentsFromJson.forEach(System.out::println);
 
-        Checking.checkSize(students, newStudentList);
+        Checking.checkSize(students, studentsFromJson);
 
         students.forEach(student -> {
             String studentJson = JsonUtil.serializeStudentObject(student);
@@ -36,18 +48,24 @@ public class Main {
             System.out.println("десериализация в stream \n" + studentFromJson + "\n");
         });
 
-//        System.out.println("university object-----------------------------");
-//        System.out.println(JsonUtil.serializeUniversityObject(universities.get(0)));
-//        System.out.println("university list--------------------------------");
-//        System.out.println(JsonUtil.serializeUniversityList(universities));
+        UniversityComparator universityComparator = SelectComparator.
+                getInstance().getUniversityComparator(UniversityCompareEnum.UNIVERSITY_PROFILE);
+        universities.sort(universityComparator);
 
-//        StudentComparator studentComparator = SelectComparator.
-//                getInstance().getStudentComparator(StudentCompareEnum.FULL_NAME);
-//
-//        UniversityComparator universityComparator = SelectComparator.
-//                getInstance().getUniversityComparator(UniversityCompareEnum.UNIVERSITY_PROFILE);
-//
-//        students.stream().sorted(studentComparator).forEach(System.out::println);
-//        universities.stream().sorted(universityComparator).forEach(System.out::println);
+//        System.out.println("serialized university object------------------");
+//        System.out.println(JsonUtil.serializeUniversityObject(universities.get(0)));
+
+        System.out.println("serialized university list------------------------");
+        String universitiesJson = JsonUtil.serializeUniversityList(universities);
+        System.out.println(universitiesJson);
+
+        System.out.println("deserialized university list----------------------");
+        List<University> universityFromJson = JsonUtil.deserializeUniversityList(universitiesJson);
+        universityFromJson.forEach(System.out::println);
+
+        Checking.checkSize(universities, universityFromJson);
+
+        List<Statistics> statisticsList = CollectStatistics.processing(students, universities);
+        XlsWriter.createFileXls(statisticsList, "statistics.xlsx");
     }
 }
