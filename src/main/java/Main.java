@@ -1,24 +1,46 @@
+
 import comparators.StudentComparator;
 import comparators.UniversityComparator;
 import enums.StudentCompareEnum;
 import enums.UniversityCompareEnum;
-import io.ReadData;
+import io.JsonWriter;
+import io.XlsReader;
 import io.XlsWriter;
+import io.XmlWriter;
 import model.Statistics;
 import model.Student;
 import model.University;
-import utils.Checking;
+import model.XmlStructure;
 import utils.CollectStatistics;
+import utils.Java2Xml;
 import utils.JsonUtil;
 import utils.SelectComparator;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import static utils.CreateFileUtil.createNewFile;
 
 public class Main {
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) throws Exception {
-        ReadData rd = ReadData.getInstance();
+
+        try {
+            LogManager.getLogManager().readConfiguration(
+                    Main.class.getResourceAsStream("/logging.properties"));
+        } catch (IOException e) {
+            System.err.println("Could not setup logger configuration: : " + e.toString());
+        }
+
+        logger.info("Application started, Logger configured");
+
+        XlsReader rd = XlsReader.getInstance();
         URI linkToFile = rd.readFileFromResources("universityInfo.xlsx");
         File file = new File(linkToFile);
         List<Student> students = rd.readStudentsDataFromFile(file);
@@ -28,44 +50,28 @@ public class Main {
                 getInstance().getStudentComparator(StudentCompareEnum.COURSE);
         students.sort(studentComparator);
 
-//        System.out.println("serialized student object--------------------");
-//        System.out.println(JsonUtil.serializeStudentObject(students.get(1)));
-
-        System.out.println("serialized student list------------------------");
-        String studentsJson = JsonUtil.serializeStudentList(students);
-        System.out.println(studentsJson);
-
-        System.out.println("deserialized student list----------------------");
-        List<Student> studentsFromJson = JsonUtil.deserializeStudentList(studentsJson);
-        studentsFromJson.forEach(System.out::println);
-
-        Checking.checkSize(students, studentsFromJson);
-
-        students.forEach(student -> {
-            String studentJson = JsonUtil.serializeStudentObject(student);
-            System.out.println("сериализация в stream ----------------------- \n" + studentJson);
-            Student studentFromJson = JsonUtil.deserializeStudentObject(studentJson);
-            System.out.println("десериализация в stream \n" + studentFromJson + "\n");
-        });
-
         UniversityComparator universityComparator = SelectComparator.
                 getInstance().getUniversityComparator(UniversityCompareEnum.UNIVERSITY_PROFILE);
         universities.sort(universityComparator);
 
-//        System.out.println("serialized university object------------------");
-//        System.out.println(JsonUtil.serializeUniversityObject(universities.get(0)));
-
-        System.out.println("serialized university list------------------------");
-        String universitiesJson = JsonUtil.serializeUniversityList(universities);
-        System.out.println(universitiesJson);
-
-        System.out.println("deserialized university list----------------------");
-        List<University> universityFromJson = JsonUtil.deserializeUniversityList(universitiesJson);
-        universityFromJson.forEach(System.out::println);
-
-        Checking.checkSize(universities, universityFromJson);
-
         List<Statistics> statisticsList = CollectStatistics.processing(students, universities);
         XlsWriter.createFileXls(statisticsList, "statistics.xlsx");
+
+
+        XmlStructure xmlStructure = new XmlStructure()
+                .setStudentList(students)
+                .setUniversityList(universities)
+                .setStatisticsList(statisticsList)
+                .setProcessDate(new Date());
+
+        //Метод из авторского кода для сравнения
+        // XmlWriter.generateXmlReq(xmlStructure);
+
+        File xmlFile = createNewFile("xmlReqs", "_Req.xml");
+        Java2Xml.marshallingObject(xmlFile, xmlStructure);
+
+        //     JsonWriter.writeJsonReq(xmlStructure);
+
+        logger.info("Application finished");
     }
 }
