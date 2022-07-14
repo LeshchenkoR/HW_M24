@@ -70,7 +70,7 @@ public class Main {
         File xmlFile = createNewFile("xmlReqs", "_Req.xml");
         Java2Xml.marshallingObject(xmlFile, xmlStructure);
 
-        //     JsonWriter.writeJsonReq(xmlStructure);
+        JsonWriter.writeJsonReq(xmlStructure);
 
         logger.info("Application finished");
     }
